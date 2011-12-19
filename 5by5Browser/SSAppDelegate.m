@@ -25,7 +25,7 @@
     FiveByFive *fiveByFive = [[FiveByFive alloc] initWithBaseURL: @"http:/feeds.feedburner.com/"];
     [fiveByFive addShow: [Show showWithName: @"Back to Work"      path: @"back2work"]];
     [fiveByFive addShow: [Show showWithName: @"Build and Analyze" path: @"buildanalyze"]];
-    [fiveByFive addShow: [Show showWithName: @"Critical Path"     path: @"criticalpath"]];
+    [fiveByFive addShow: [Show showWithName: @"The Critical Path" path: @"criticalpath"]];
     [fiveByFive addShow: [Show showWithName: @"Geek Friday"       path: @"GeekFriday"]];
     [fiveByFive addShow: [Show showWithName: @"Hypercritical"     path: @"hypercritical"]];
     [fiveByFive addShow: [Show showWithName: @"The Talk Show"     path: @"thetalkshow"]];
@@ -35,13 +35,16 @@
         SSMasterViewController *masterViewController = [[SSMasterViewController alloc] initWithNibName:@"SSMasterViewController_iPhone" bundle:nil];
         masterViewController.fiveByFive = fiveByFive;
         self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+        [self.navigationController.navigationBar setTintColor: [UIColor colorWithWhite: 0.3 alpha: 1.0]];
         self.window.rootViewController = self.navigationController;
     } else {
         SSMasterViewController *masterViewController = [[SSMasterViewController alloc] initWithNibName:@"SSMasterViewController_iPad" bundle:nil];
         UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+        [masterNavigationController.navigationBar setTintColor: [UIColor colorWithWhite: 0.3 alpha: 1.0]];
         
         SSDetailViewController *detailViewController = [[SSDetailViewController alloc] initWithNibName:@"SSDetailViewController_iPad" bundle:nil];
         UINavigationController *detailNavigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+        [detailNavigationController.navigationBar setTintColor: [UIColor colorWithWhite: 0.3 alpha: 1.0]];
     	
         masterViewController.fiveByFive = fiveByFive;
     	

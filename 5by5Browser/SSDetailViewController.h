@@ -14,9 +14,13 @@
 @property (strong, nonatomic) Episode *episode;
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *forwardButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *instapaperButton;
+@property (strong, nonatomic) IBOutlet UIView *loadingView;
 
-- (IBAction) goHome;
+- (IBAction) goHome: (id)sender;
+- (IBAction)sendToInstapaper: (id)sender;
 
 @end

@@ -79,7 +79,8 @@
 - (void) feedParser: (MWFeedParser *)parser didParseFeedItem: (MWFeedItem *)item
 {
     NSLog(@"feed item: %@", item);
-    [self addEpisode: [Episode episodeWithName: item.title number: @"<n>" url: [NSURL URLWithString: item.link]]];
+    NSLog(@"show name: %@", self.name);
+    [self addEpisode: [Episode episodeWithShow: self name: item.title number: @"<n>" url: [NSURL URLWithString: item.link]]];
 }
 
 - (void) feedParserDidFinish: (MWFeedParser *)parser

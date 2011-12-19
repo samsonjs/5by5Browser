@@ -7,14 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Show.h"
+
+@class Show;
 
 @interface Episode : NSObject
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *number;
+@property (nonatomic, retain) Show *show;
 @property (nonatomic, retain) NSURL *url;
 
-+ (id) episodeWithName: (NSString *)name number: (NSString *)number url: (NSURL *)url;
-- (id) initWithName: (NSString *)name number: (NSString *)number url: (NSURL *)url;
++ (id) episodeWithShow: (Show *)show name: (NSString *)name number: (NSString *)number url: (NSURL *)url;
+- (id) initWithShow: (Show *)show name: (NSString *)name number: (NSString *)number url: (NSURL *)url;
 
 @end

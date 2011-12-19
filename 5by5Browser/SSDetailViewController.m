@@ -7,6 +7,9 @@
 //
 
 #import "SSDetailViewController.h"
+#import "MMHTTPClient.h"
+#import "InstapaperCredentials.h"
+#import "UIAlertView+marshmallows.h"
 
 @interface SSDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -18,8 +21,11 @@
 @synthesize episode = _episode;
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
 @synthesize webView = _webView;
+@synthesize toolbar = _toolbar;
 @synthesize backButton = _backButton;
 @synthesize forwardButton = _forwardButton;
+@synthesize instapaperButton = _instapaperButton;
+@synthesize loadingView = _loadingView;
 @synthesize masterPopoverController = _masterPopoverController;
 
 #pragma mark - Managing the detail item
@@ -40,19 +46,16 @@
 
 - (void)configureView
 {
-    // Update the user interface for the detail item.
-
     if (self.episode) {
         self.title = self.episode.name;
         self.detailDescriptionLabel.text = self.episode.name;
-        [self.webView loadRequest: [NSURLRequest requestWithURL: self.episode.url]];
+        [self goHome: nil];
     }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
 
@@ -61,6 +64,9 @@
     [self setWebView:nil];
     [self setBackButton:nil];
     [self setForwardButton:nil];
+    [self setInstapaperButton:nil];
+    [self setToolbar:nil];
+    [self setLoadingView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     self.detailDescriptionLabel = nil;
@@ -75,17 +81,50 @@
     }
 }
 
+- (void) webViewDidStartLoad: (UIWebView *)webView
+{
+    [UIView animateWithDuration: 1.0 animations: ^{
+        self.loadingView.alpha = 1.0;
+    }];
+}
+
 - (void) webViewDidFinishLoad: (UIWebView *)webView
 {
+    [UIView animateWithDuration: 0.3 animations: ^{
+        self.loadingView.alpha = 0.0;
+    }];
     [self.backButton setEnabled: webView.canGoBack];
     [self.forwardButton setEnabled: webView.canGoForward];
 }
 
-- (IBAction) goHome
+- (IBAction) goHome: (id)sender
 {
-    while (self.webView.canGoBack) {
-        [self.webView goBack];
-    }
+    [self.webView loadRequest: [NSURLRequest requestWithURL: self.episode.url]];
+}
+
+- (IBAction) sendToInstapaper: (id)sender
+{
+    NSString *url = self.webView.request.URL.absoluteString;
+    NSDictionary *fields = [NSDictionary dictionaryWithObjectsAndKeys:
+                            kInstapaperUser, @"username",
+                            kInstapaperPassword, @"password",
+                            url, @"url",
+                            nil];
+
+    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite];
+    [indicatorView startAnimating];
+    UIBarButtonItem *indicatorItem = [[UIBarButtonItem alloc] initWithCustomView: indicatorView];
+    NSMutableArray *items = [[self.toolbar items] mutableCopy];
+    NSInteger i = [items indexOfObject: self.instapaperButton];
+    [items replaceObjectAtIndex: i withObject: indicatorItem];
+    [self.toolbar setItems: items];
+    [MMHTTPClient post: @"https://www.instapaper.com/api/add" fields: fields then: ^(NSInteger status, id data) {
+        [items replaceObjectAtIndex: i withObject: self.instapaperButton];
+        [self.toolbar setItems: items];
+        if (status != 201) {
+            [UIAlertView showAlertWithTitle: @"Error" message: @"Failed to send to Instapaper. Try again later."];
+        }
+    }];
 }
 
 #pragma mark - Split view

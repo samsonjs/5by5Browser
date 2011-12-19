@@ -11,6 +11,8 @@
 #import "Episode.h"
 #import "FiveByFive.h"
 
+@class Episode;
+
 @protocol ShowDelegate <NSObject>
 - (void) gotEpisodesForShow: (Show *)show;
 @end
