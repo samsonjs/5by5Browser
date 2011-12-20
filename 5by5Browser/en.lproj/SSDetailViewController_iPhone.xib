@@ -44,7 +44,7 @@
 						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="230351054"/>
+						<reference key="NSNextKeyView" ref="796666311"/>
 						<string key="NSReuseIdentifierKey">_NS:693</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -110,7 +110,7 @@
 								<bool key="IBUIEnabled">NO</bool>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">forw.png</string>
+									<string key="NSResourceName">forward.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<reference key="IBUIToolbar" ref="592752272"/>
@@ -121,15 +121,15 @@
 							<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
 						</object>
 					</object>
-					<object class="IBUIView" id="230351054">
+					<object class="IBUIView" id="796666311">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="IBUIActivityIndicatorView" id="269906149">
-								<reference key="NSNextResponder" ref="230351054"/>
+							<object class="IBUIActivityIndicatorView" id="876525285">
+								<reference key="NSNextResponder" ref="796666311"/>
 								<int key="NSvFlags">301</int>
 								<string key="NSFrame">{{142, 189}, {37, 37}}</string>
-								<reference key="NSSuperview" ref="230351054"/>
+								<reference key="NSSuperview" ref="796666311"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="592752272"/>
 								<string key="NSReuseIdentifierKey">_NS:1030</string>
@@ -143,7 +143,7 @@
 						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="269906149"/>
+						<reference key="NSNextKeyView" ref="876525285"/>
 						<string key="NSReuseIdentifierKey">_NS:196</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -221,7 +221,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">loadingView</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="230351054"/>
+						<reference key="destination" ref="796666311"/>
 					</object>
 					<int key="connectionID">28</int>
 				</object>
@@ -279,7 +279,7 @@
 						<reference key="object" ref="191373211"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="517643825"/>
-							<reference ref="230351054"/>
+							<reference ref="796666311"/>
 							<reference ref="592752272"/>
 						</array>
 						<reference key="parent" ref="0"/>
@@ -347,16 +347,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">26</int>
-						<reference key="object" ref="230351054"/>
+						<reference key="object" ref="796666311"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="269906149"/>
+							<reference ref="876525285"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Loading View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">27</int>
-						<reference key="object" ref="269906149"/>
-						<reference key="parent" ref="230351054"/>
+						<reference key="object" ref="876525285"/>
+						<reference key="parent" ref="796666311"/>
 					</object>
 				</array>
 			</object>
@@ -404,7 +405,6 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backButton">UIBarButtonItem</string>
-						<string key="detailDescriptionLabel">UILabel</string>
 						<string key="forwardButton">UIBarButtonItem</string>
 						<string key="instapaperButton">UIBarButtonItem</string>
 						<string key="loadingView">UIView</string>
@@ -415,10 +415,6 @@
 						<object class="IBToOneOutletInfo" key="backButton">
 							<string key="name">backButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="detailDescriptionLabel">
-							<string key="name">detailDescriptionLabel</string>
-							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="forwardButton">
 							<string key="name">forwardButton</string>
@@ -454,7 +450,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="back.png">{15, 18}</string>
-			<string key="forw.png">{15, 18}</string>
+			<string key="forward.png">{15, 18}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1145</string>
 	</data>

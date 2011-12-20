@@ -68,18 +68,17 @@
 
 - (void) feedParserDidStart: (MWFeedParser *)parser
 {
-    NSLog(@"feed parser started");
+//    NSLog(@"feed parser started");
 }
 
 - (void) feedParser: (MWFeedParser *)parser didParseFeedInfo: (MWFeedInfo *)info
 {
-    NSLog(@"feed info: %@", info);
+//    NSLog(@"feed info: %@", info);
 }
 
 - (void) feedParser: (MWFeedParser *)parser didParseFeedItem: (MWFeedItem *)item
 {
-    NSLog(@"feed item: %@", item);
-    NSLog(@"show name: %@", self.name);
+//    NSLog(@"feed item: %@", item);
     [self addEpisode: [Episode episodeWithShow: self name: item.title number: @"<n>" url: [NSURL URLWithString: item.link]]];
 }
 

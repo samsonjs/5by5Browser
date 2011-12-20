@@ -12,14 +12,16 @@
 #import "UIAlertView+marshmallows.h"
 
 @interface SSDetailViewController ()
+{
+    UIBarButtonItem *_showsButton;
+}
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
-- (void)configureView;
+- (void) configureView;
 @end
 
 @implementation SSDetailViewController
 
 @synthesize episode = _episode;
-@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 @synthesize webView = _webView;
 @synthesize toolbar = _toolbar;
 @synthesize backButton = _backButton;
@@ -48,15 +50,24 @@
 {
     if (self.episode) {
         self.title = self.episode.name;
-        self.detailDescriptionLabel.text = self.episode.name;
-        [self goHome: nil];
     }
+    else {
+        self.title = @"5by5";
+    }
+    [self goHome: nil];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self configureView];
+
+    if (_showsButton) {
+        NSMutableArray *items = [[self.toolbar items] mutableCopy];
+        [items insertObject: _showsButton atIndex: 0];
+        [self.toolbar setItems: items animated: YES];
+        _showsButton = nil;
+    }
 }
 
 - (void)viewDidUnload
@@ -68,8 +79,6 @@
     [self setToolbar:nil];
     [self setLoadingView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    self.detailDescriptionLabel = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -99,7 +108,12 @@
 
 - (IBAction) goHome: (id)sender
 {
-    [self.webView loadRequest: [NSURLRequest requestWithURL: self.episode.url]];
+    if (self.episode) {
+        [self.webView loadRequest: [NSURLRequest requestWithURL: self.episode.url]];
+    }
+    else {
+        [self.webView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString: @"http://5by5.tv"]]];
+    }
 }
 
 - (IBAction) sendToInstapaper: (id)sender
@@ -129,17 +143,30 @@
 
 #pragma mark - Split view
 
-- (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
+- (void) splitViewController: (UISplitViewController *)splitController
+      willHideViewController: (UIViewController *)viewController
+           withBarButtonItem: (UIBarButtonItem *)barButtonItem
+        forPopoverController: (UIPopoverController *)popoverController
 {
-    barButtonItem.title = @"Shows";
-    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    if (self.toolbar) {
+        NSMutableArray *items = [[self.toolbar items] mutableCopy];
+        [items insertObject: barButtonItem atIndex: 0];
+        [self.toolbar setItems: items animated: YES];
+    }
+    else {
+        _showsButton = barButtonItem;
+    }
     self.masterPopoverController = popoverController;
 }
 
-- (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+- (void) splitViewController: (UISplitViewController *)splitController
+      willShowViewController: (UIViewController *)viewController
+   invalidatingBarButtonItem: (UIBarButtonItem *)barButtonItem
 {
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    NSMutableArray *items = [[self.toolbar items] mutableCopy];
+    [items removeObject: barButtonItem];
+    [self.toolbar setItems: items animated: YES];
     self.masterPopoverController = nil;
 }
 

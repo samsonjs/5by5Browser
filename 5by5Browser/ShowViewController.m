@@ -23,7 +23,9 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+        }
     }
     return self;
 }
@@ -31,26 +33,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    if (self.show) {
+        [self configureView];
+    }
 }
 
-- (void)viewDidUnload
+- (void) configureView
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    self.title = self.show.name;
+    [self.tableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    } else {
+        return YES;
+    }
 }
 
 - (void) setShow: (Show *)show
 {
     _show = show;
-    self.title = self.show.name;
-    [self.tableView reloadData];
+    [self configureView];
 }
 
 #pragma mark - Table View
@@ -87,14 +93,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Episode *episode = [self.show.episodes objectAtIndex: indexPath.row];
+    self.detailViewController.episode = episode;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-	    if (!self.detailViewController) {
-	        self.detailViewController = [[SSDetailViewController alloc] initWithNibName: @"SSDetailViewController_iPhone" bundle: nil];
-	    }
-	    self.detailViewController.episode = episode;
         [self.navigationController pushViewController: self.detailViewController animated:YES];
-    } else {
-        self.detailViewController.episode = episode;
     }
 }
 

@@ -12,7 +12,6 @@
 @interface SSDetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate>
 
 @property (strong, nonatomic) Episode *episode;
-@property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *backButton;

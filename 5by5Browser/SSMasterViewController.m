@@ -7,37 +7,25 @@
 //
 
 #import "SSMasterViewController.h"
-#import "ShowViewController.h"
 #import "Show.h"
 
 @implementation SSMasterViewController
 
+@synthesize showViewController = _showViewController;
 @synthesize fiveByFive = _fiveByFive;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"5by5 Shows";
+        self.title = @"Shows";
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            self.clearsSelectionOnViewWillAppear = NO;
             self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
         }
     }
     return self;
 }
 							
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
 - (void) viewWillAppear: (BOOL)animated
 {
     [super viewWillAppear: animated];
@@ -45,12 +33,7 @@
     for (int i = 0; i < [self tableView: self.tableView numberOfRowsInSection: 0]; ++i) {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: [NSIndexPath indexPathForRow: i inSection: 0]];
         cell.accessoryView = nil;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 }
 
@@ -91,12 +74,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     Show *show = [self.fiveByFive.shows objectAtIndex: indexPath.row];
     show.delegate = self;
@@ -114,15 +92,8 @@
 
 - (void) gotEpisodesForShow: (Show *)show
 {
-    ShowViewController *vc;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        vc = [[ShowViewController alloc] initWithNibName: @"ShowViewController_iPhone" bundle: nil];
-    }
-    else {
-        vc = [[ShowViewController alloc] initWithNibName: @"ShowViewController_iPad" bundle: nil];
-    }
-    vc.show = show;
-    [self.navigationController pushViewController: vc animated:YES];
+    self.showViewController.show = show;
+    [self.navigationController pushViewController: self.showViewController animated: YES];
 }
 
 @end

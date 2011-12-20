@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShowViewController.h"
 #import "FiveByFive.h"
 #import "Show.h"
 
 @interface SSMasterViewController : UITableViewController <ShowDelegate>
 
 @property (nonatomic, retain) FiveByFive *fiveByFive;
+@property (nonatomic, retain) ShowViewController *showViewController;
 
 @end

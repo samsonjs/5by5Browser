@@ -9,6 +9,7 @@
 #import "SSAppDelegate.h"
 #import "SSMasterViewController.h"
 #import "SSDetailViewController.h"
+#import "ShowViewController.h"
 #import "FiveByFive.h"
 #import "Show.h"
 
@@ -33,7 +34,13 @@
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         SSMasterViewController *masterViewController = [[SSMasterViewController alloc] initWithNibName:@"SSMasterViewController_iPhone" bundle:nil];
+        ShowViewController *showViewController = [[ShowViewController alloc] initWithNibName: @"ShowViewController_iPhone" bundle: nil];
+        SSDetailViewController *detailViewController = [[SSDetailViewController alloc] initWithNibName:@"SSDetailViewController_iPhone" bundle:nil];
+        
         masterViewController.fiveByFive = fiveByFive;
+        masterViewController.showViewController = showViewController;
+        showViewController.detailViewController = detailViewController;
+        
         self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
         [self.navigationController.navigationBar setTintColor: [UIColor colorWithWhite: 0.3 alpha: 1.0]];
         self.window.rootViewController = self.navigationController;
@@ -41,17 +48,22 @@
         SSMasterViewController *masterViewController = [[SSMasterViewController alloc] initWithNibName:@"SSMasterViewController_iPad" bundle:nil];
         UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
         [masterNavigationController.navigationBar setTintColor: [UIColor colorWithWhite: 0.3 alpha: 1.0]];
-        
+
+        ShowViewController *showViewController = [[ShowViewController alloc] initWithNibName: @"ShowViewController_iPad" bundle: nil];
+
         SSDetailViewController *detailViewController = [[SSDetailViewController alloc] initWithNibName:@"SSDetailViewController_iPad" bundle:nil];
         UINavigationController *detailNavigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
         [detailNavigationController.navigationBar setTintColor: [UIColor colorWithWhite: 0.3 alpha: 1.0]];
-    	
+
         masterViewController.fiveByFive = fiveByFive;
-    	
+        masterViewController.showViewController = showViewController;
+        showViewController.detailViewController = detailViewController;
+        [detailNavigationController setNavigationBarHidden: YES];
+
         self.splitViewController = [[UISplitViewController alloc] init];
         self.splitViewController.delegate = detailViewController;
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:masterNavigationController, detailNavigationController, nil];
-        
+
         self.window.rootViewController = self.splitViewController;
     }
     [self.window makeKeyAndVisible];
