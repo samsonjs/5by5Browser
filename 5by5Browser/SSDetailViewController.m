@@ -11,13 +11,19 @@
 #import "InstapaperCredentials.h"
 #import "UIAlertView+marshmallows.h"
 
+// Private API
 @interface SSDetailViewController ()
 {
     UIBarButtonItem *_showsButton;
 }
+
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property BOOL isLoading;
+
 - (void) configureView;
+
 @end
+
 
 @implementation SSDetailViewController
 
@@ -29,6 +35,7 @@
 @synthesize instapaperButton = _instapaperButton;
 @synthesize loadingView = _loadingView;
 @synthesize masterPopoverController = _masterPopoverController;
+@synthesize isLoading = _isLoading;
 
 #pragma mark - Managing the detail item
 
@@ -90,15 +97,24 @@
     }
 }
 
+- (BOOL) webView: (UIWebView *)webView shouldStartLoadWithRequest: (NSURLRequest *)request navigationType: (UIWebViewNavigationType)navigationType
+{
+    self.isLoading = navigationType == UIWebViewNavigationTypeOther ? self.isLoading : YES;
+    return YES;
+}
+
 - (void) webViewDidStartLoad: (UIWebView *)webView
 {
-    [UIView animateWithDuration: 1.0 animations: ^{
-        self.loadingView.alpha = 1.0;
-    }];
+    if (self.isLoading) {
+        [UIView animateWithDuration: 1.0 animations: ^{
+            self.loadingView.alpha = 1.0;
+        }];
+    }
 }
 
 - (void) webViewDidFinishLoad: (UIWebView *)webView
 {
+    self.isLoading = NO;
     [UIView animateWithDuration: 0.3 animations: ^{
         self.loadingView.alpha = 0.0;
     }];
@@ -108,6 +124,8 @@
 
 - (IBAction) goHome: (id)sender
 {
+    // Show the loading animation
+    self.isLoading = YES;
     if (self.episode) {
         [self.webView loadRequest: [NSURLRequest requestWithURL: self.episode.url]];
     }
