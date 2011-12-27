@@ -53,7 +53,7 @@
     }        
 }
 
-- (void)configureView
+- (void) configureView
 {
     if (self.episode) {
         self.title = self.episode.name;
@@ -64,7 +64,7 @@
     [self goHome: nil];
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     [self configureView];
@@ -77,7 +77,7 @@
     }
 }
 
-- (void)viewDidUnload
+- (void) viewDidUnload
 {
     [self setWebView:nil];
     [self setBackButton:nil];
@@ -88,7 +88,7 @@
     [super viewDidUnload];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL) shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
@@ -134,9 +134,8 @@
     }
 }
 
-- (IBAction) sendToInstapaper: (id)sender
+- (void) sendURLToInstapaper: (NSString *)url
 {
-    NSString *url = self.webView.request.URL.absoluteString;
     NSDictionary *fields = [NSDictionary dictionaryWithObjectsAndKeys:
                             kInstapaperUser, @"username",
                             kInstapaperPassword, @"password",
@@ -157,6 +156,11 @@
             [UIAlertView showAlertWithTitle: @"Error" message: @"Failed to send to Instapaper. Try again later."];
         }
     }];
+}
+
+- (IBAction) sendToInstapaper: (id)sender
+{
+    [self sendURLToInstapaper: self.webView.request.URL.absoluteString];
 }
 
 #pragma mark - Split view
