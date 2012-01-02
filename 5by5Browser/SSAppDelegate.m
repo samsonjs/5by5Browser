@@ -30,6 +30,7 @@
     [fiveByFive addShow: [Show showWithName: @"Geek Friday"       feedPath: @"GeekFriday"    webPath: @"geekfriday"]];
     [fiveByFive addShow: [Show showWithName: @"Hypercritical"     feedPath: @"hypercritical" webPath: @"hypercritical"]];
     [fiveByFive addShow: [Show showWithName: @"The Talk Show"     feedPath: @"thetalkshow"   webPath: @"talkshow"]];
+    [fiveByFive addShow: [Show showWithName: @"The Web Ahead"     feedPath: @"TheWebAhead"   webPath: @"webahead"]];
 
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {

@@ -23,7 +23,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Shows";
+        self.title = @"5by5";
+        [self.navigationItem  setBackBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Shows"
+                                                                                     style: UIBarButtonItemStyleBordered
+                                                                                    target: self.navigationController
+                                                                                    action: @selector(popViewControllerAnimated:)]];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
         }
@@ -108,6 +112,11 @@
     return @"Shows";
 }
 
+- (CGFloat) tableView: (UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *)indexPath
+{
+    return 60.0;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -124,11 +133,13 @@
         self.currentShow.delegate = self;
         cell.textLabel.text = self.currentEpisodeName;
         cell.detailTextLabel.text = [NSString stringWithFormat: @"%@ %@", self.currentShow.name, self.currentEpisodeNumber];
+        cell.imageView.image = self.currentShow.image;
     }
     else {
         Show *show = [self.fiveByFive.shows objectAtIndex: indexPath.row];
         show.delegate = self;
         cell.textLabel.text = show.name;
+        cell.imageView.image = show.image;
         if (show.episodes.count > 0) {
             cell.detailTextLabel.text = [NSString stringWithFormat: @"%d episodes", show.episodes.count];
         }

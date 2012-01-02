@@ -25,6 +25,7 @@
 @property (nonatomic, retain) NSString *feedPath;
 @property (nonatomic, retain) NSString *webPath;
 @property (nonatomic, retain) NSMutableArray *episodes;
+@property (nonatomic, retain) UIImage *image;
 
 + (id) showWithName: (NSString *)name feedPath: (NSString *)feedPath webPath: (NSString *)webPath;
 - (id) initWithName: (NSString *)name feedPath: (NSString *)feedPath webPath: (NSString *)webPath;

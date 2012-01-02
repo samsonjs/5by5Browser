@@ -23,6 +23,7 @@
 @synthesize feedPath = _feedPath;
 @synthesize webPath = _webPath;
 @synthesize episodes = _episodes;
+@synthesize image = _image;
 
 + (id) showWithName: (NSString *)name feedPath: (NSString *)feedPath webPath: (NSString *)webPath
 {
@@ -70,6 +71,13 @@
     return [NSString stringWithFormat: @"http://5by5.tv/%@/%@", self.webPath, episodeNumber];
 }
 
+- (UIImage *) image
+{
+    if (_image == nil) {
+        _image = [UIImage imageNamed: [NSString stringWithFormat: @"%@.jpg", self.webPath]];
+    }
+    return _image;
+}
 
 // MWFeedParserDelegate methods
 
