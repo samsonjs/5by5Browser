@@ -30,4 +30,12 @@
     [self.shows addObject: show];
 }
 
+- (Show *) showWithName: (NSString *)name
+{
+    for (Show *show in self.shows) {
+        if ([show.name isEqualToString: name]) return show;
+    }
+    return nil;
+}
+
 @end

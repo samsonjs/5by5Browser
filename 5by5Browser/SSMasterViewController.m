@@ -6,13 +6,18 @@
 //  Copyright (c) 2011 Guru Logic. All rights reserved.
 //
 
+#import <MediaPlayer/MediaPlayer.h>
 #import "SSMasterViewController.h"
 #import "Show.h"
+#import "NSString+marshmallows.h"
 
 @implementation SSMasterViewController
 
 @synthesize showViewController = _showViewController;
 @synthesize fiveByFive = _fiveByFive;
+@synthesize currentShow = _currentShow;
+@synthesize currentEpisodeNumber = _currentEpisodeNumber;
+@synthesize currentEpisodeName = _currentEpisodeName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,7 +30,7 @@
     }
     return self;
 }
-							
+
 - (void) viewWillAppear: (BOOL)animated
 {
     [super viewWillAppear: animated];
@@ -35,6 +40,8 @@
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+
+    [self checkNowPlaying];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -44,6 +51,30 @@
     } else {
         return YES;
     }
+}
+
+- (void) checkNowPlaying
+{
+    // Determine of the current playing track is a known show
+    MPMediaItem *song = [[MPMusicPlayerController iPodMusicPlayer] nowPlayingItem];
+    if (song) {
+        NSString *title = [song valueForProperty: MPMediaItemPropertyTitle];
+        self.currentEpisodeNumber = [title firstMatch: @"\\d+"];
+        self.currentEpisodeName = [title substringFromIndex: [title rangeOfString: @": "].location + 2];
+        NSString *showName = [song valueForProperty: MPMediaItemPropertyAlbumTitle];
+        self.currentShow = [self.fiveByFive showWithName: showName];
+        if (self.currentShow) {
+            NSLog(@"show: %@, episode: %@, name: %@", showName, self.currentEpisodeNumber, self.currentEpisodeName);
+            NSLog(@"show url: %@", [self.currentShow webURLForEpisodeNumber: self.currentEpisodeNumber]);
+        }
+        else {
+            NSLog(@"no show named %@", showName);
+        }
+    }
+    else {
+        NSLog(@"no song is currently playing");
+    }
+    [self.tableView reloadData];
 }
 
 - (void) setFiveByFive: (FiveByFive *)fiveByFive
@@ -56,12 +87,25 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.currentShow ? 2 : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.fiveByFive.shows.count;
+    if (self.currentShow && section == 0) {
+        return 1;
+    }
+    else {
+        return self.fiveByFive.shows.count;
+    }
+}
+
+- (NSString *) tableView: (UITableView *)tableView titleForHeaderInSection: (NSInteger)section
+{
+    if (self.currentShow && section == 0) {
+        return @"Now Playing";
+    }
+    return @"Shows";
 }
 
 // Customize the appearance of table view cells.
@@ -71,23 +115,44 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    Show *show = [self.fiveByFive.shows objectAtIndex: indexPath.row];
-    show.delegate = self;
-    cell.textLabel.text = show.name;
+    if (self.currentShow && indexPath.section == 0) {
+        self.currentShow.delegate = self;
+        cell.textLabel.text = self.currentEpisodeName;
+        cell.detailTextLabel.text = [NSString stringWithFormat: @"%@ %@", self.currentShow.name, self.currentEpisodeNumber];
+    }
+    else {
+        Show *show = [self.fiveByFive.shows objectAtIndex: indexPath.row];
+        show.delegate = self;
+        cell.textLabel.text = show.name;
+        if (show.episodes.count > 0) {
+            cell.detailTextLabel.text = [NSString stringWithFormat: @"%d episodes", show.episodes.count];
+        }
+        else {
+            cell.detailTextLabel.text = nil;
+        }
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[self.fiveByFive.shows objectAtIndex: indexPath.row] getEpisodes];
-    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite];
-    [indicatorView startAnimating];
-    [tableView cellForRowAtIndexPath: indexPath].accessoryView = indicatorView;
+    if (self.currentShow && indexPath.section == 0) {
+        NSURL *url = [NSURL URLWithString: [self.currentShow webURLForEpisodeNumber: self.currentEpisodeNumber]];
+        Episode *episode = [Episode episodeWithShow: self.currentShow name: self.currentEpisodeName number: self.currentEpisodeNumber url: url];
+        self.showViewController.detailViewController.episode = episode;
+        [self.navigationController pushViewController: self.showViewController.detailViewController animated: YES];
+    }
+    else {
+        [[self.fiveByFive.shows objectAtIndex: indexPath.row] getEpisodes];
+        UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite];
+        [indicatorView startAnimating];
+        [tableView cellForRowAtIndexPath: indexPath].accessoryView = indicatorView;
+    }
 }
 
 - (void) gotEpisodesForShow: (Show *)show

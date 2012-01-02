@@ -15,5 +15,10 @@
 
 @property (nonatomic, retain) FiveByFive *fiveByFive;
 @property (nonatomic, retain) ShowViewController *showViewController;
+@property (nonatomic, retain) Show *currentShow;
+@property (nonatomic, retain) NSString *currentEpisodeNumber;
+@property (nonatomic, retain) NSString *currentEpisodeName;
+
+- (void) checkNowPlaying;
 
 @end

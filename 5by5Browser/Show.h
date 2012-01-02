@@ -22,12 +22,14 @@
 @property (nonatomic, assign) id<ShowDelegate> delegate;
 @property (nonatomic, retain) FiveByFive *fiveByFive;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain) NSString *feedPath;
+@property (nonatomic, retain) NSString *webPath;
 @property (nonatomic, retain) NSMutableArray *episodes;
 
-+ (id) showWithName: (NSString *)name path: (NSString *)path;
-- (id) initWithName: (NSString *)name path: (NSString *)path;
++ (id) showWithName: (NSString *)name feedPath: (NSString *)feedPath webPath: (NSString *)webPath;
+- (id) initWithName: (NSString *)name feedPath: (NSString *)feedPath webPath: (NSString *)webPath;
 - (void) addEpisode: (Episode *)episode;
 - (void) getEpisodes;
+- (NSString *) webURLForEpisodeNumber: (NSString *)episodeNumber;
 
 @end

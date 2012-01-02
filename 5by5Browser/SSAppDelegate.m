@@ -24,12 +24,12 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     FiveByFive *fiveByFive = [[FiveByFive alloc] initWithBaseURL: @"http:/feeds.feedburner.com/"];
-    [fiveByFive addShow: [Show showWithName: @"Back to Work"      path: @"back2work"]];
-    [fiveByFive addShow: [Show showWithName: @"Build and Analyze" path: @"buildanalyze"]];
-    [fiveByFive addShow: [Show showWithName: @"The Critical Path" path: @"criticalpath"]];
-    [fiveByFive addShow: [Show showWithName: @"Geek Friday"       path: @"GeekFriday"]];
-    [fiveByFive addShow: [Show showWithName: @"Hypercritical"     path: @"hypercritical"]];
-    [fiveByFive addShow: [Show showWithName: @"The Talk Show"     path: @"thetalkshow"]];
+    [fiveByFive addShow: [Show showWithName: @"Back to Work"      feedPath: @"back2work"     webPath: @"b2w"]];
+    [fiveByFive addShow: [Show showWithName: @"Build and Analyze" feedPath: @"buildanalyze"  webPath: @"buildanalyze"]];
+    [fiveByFive addShow: [Show showWithName: @"The Critical Path" feedPath: @"criticalpath"  webPath: @"criticalpath"]];
+    [fiveByFive addShow: [Show showWithName: @"Geek Friday"       feedPath: @"GeekFriday"    webPath: @"geekfriday"]];
+    [fiveByFive addShow: [Show showWithName: @"Hypercritical"     feedPath: @"hypercritical" webPath: @"hypercritical"]];
+    [fiveByFive addShow: [Show showWithName: @"The Talk Show"     feedPath: @"thetalkshow"   webPath: @"talkshow"]];
 
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -90,6 +90,14 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    SSMasterViewController *masterViewController;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        masterViewController = [[self.navigationController viewControllers] objectAtIndex: 0];
+    }
+    else {
+        masterViewController = [[[[self.splitViewController viewControllers] objectAtIndex: 0] viewControllers] objectAtIndex: 0];
+    }
+    [masterViewController checkNowPlaying];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

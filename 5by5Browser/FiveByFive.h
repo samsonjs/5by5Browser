@@ -17,5 +17,6 @@
 
 - (id) initWithBaseURL: (NSString *)baseURL;
 - (void) addShow: (Show *)show;
+- (Show *) showWithName: (NSString *)name;
 
 @end

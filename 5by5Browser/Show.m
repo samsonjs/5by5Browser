@@ -20,20 +20,22 @@
 @synthesize delegate = _delegate;
 @synthesize fiveByFive = _fiveByFive;
 @synthesize name = _name;
-@synthesize path = _path;
+@synthesize feedPath = _feedPath;
+@synthesize webPath = _webPath;
 @synthesize episodes = _episodes;
 
-+ (id) showWithName: (NSString *)name path: (NSString *)path
++ (id) showWithName: (NSString *)name feedPath: (NSString *)feedPath webPath: (NSString *)webPath
 {
-    return [[self alloc] initWithName: name path: path];
+    return [[self alloc] initWithName: name feedPath: feedPath webPath: webPath];
 }
 
-- (id) initWithName: (NSString *)name path: (NSString *)path
+- (id) initWithName: (NSString *)name feedPath: (NSString *)feedPath webPath: (NSString *)webPath
 {
     self = [super init];
     if (self) {
         self.name = name;
-        self.path = path;
+        self.feedPath = feedPath;
+        self.webPath = webPath;
         self.episodes = [NSMutableArray array];
     }
     return self;
@@ -60,7 +62,12 @@
 
 - (NSURL *) feedURL
 {
-    return [NSURL URLWithString: [[self.fiveByFive baseURL] stringByAppendingPathComponent: self.path]];
+    return [NSURL URLWithString: [[self.fiveByFive baseURL] stringByAppendingPathComponent: self.feedPath]];
+}
+
+- (NSString *) webURLForEpisodeNumber: (NSString *)episodeNumber
+{
+    return [NSString stringWithFormat: @"http://5by5.tv/%@/%@", self.webPath, episodeNumber];
 }
 
 

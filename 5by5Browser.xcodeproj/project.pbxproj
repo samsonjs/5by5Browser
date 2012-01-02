@@ -47,6 +47,7 @@
 		7B730305149D6714003547E5 /* MWFeedParser_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B7302FE149D6714003547E5 /* MWFeedParser_Private.h */; };
 		7B730306149D6714003547E5 /* MWFeedParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B7302FF149D6714003547E5 /* MWFeedParser.h */; };
 		7B730307149D6714003547E5 /* MWFeedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B730300149D6714003547E5 /* MWFeedParser.m */; };
+		7B81722014B137D6003EC770 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B81721F14B137D6003EC770 /* MediaPlayer.framework */; };
 		7B868946149D593C00F3A2C6 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B868945149D593C00F3A2C6 /* Episode.m */; };
 		7B86894B149D5C1000F3A2C6 /* ShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B868949149D5C0F00F3A2C6 /* ShowViewController.m */; };
 		7B868951149D5C6F00F3A2C6 /* ShowViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B86894D149D5C6F00F3A2C6 /* ShowViewController_iPad.xib */; };
@@ -108,6 +109,7 @@
 		7B7302FE149D6714003547E5 /* MWFeedParser_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedParser_Private.h; sourceTree = "<group>"; };
 		7B7302FF149D6714003547E5 /* MWFeedParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedParser.h; sourceTree = "<group>"; };
 		7B730300149D6714003547E5 /* MWFeedParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFeedParser.m; sourceTree = "<group>"; };
+		7B81721F14B137D6003EC770 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		7B868944149D593C00F3A2C6 /* Episode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Episode.h; sourceTree = "<group>"; };
 		7B868945149D593C00F3A2C6 /* Episode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Episode.m; sourceTree = "<group>"; };
 		7B868948149D5C0F00F3A2C6 /* ShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowViewController.h; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B81722014B137D6003EC770 /* MediaPlayer.framework in Frameworks */,
 				7B4CADE9149FE797007E7941 /* Security.framework in Frameworks */,
 				7B1A6ECF149D140600FC5105 /* UIKit.framework in Frameworks */,
 				7B1A6ED1149D140600FC5105 /* Foundation.framework in Frameworks */,
@@ -160,6 +163,7 @@
 		7B1A6ECD149D140600FC5105 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7B81721F14B137D6003EC770 /* MediaPlayer.framework */,
 				7B4CADE8149FE797007E7941 /* Security.framework */,
 				7B1A6ECE149D140600FC5105 /* UIKit.framework */,
 				7B1A6ED0149D140600FC5105 /* Foundation.framework */,
