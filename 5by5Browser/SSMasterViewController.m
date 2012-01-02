@@ -23,13 +23,16 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"5by5";
-        [self.navigationItem  setBackBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Shows"
-                                                                                     style: UIBarButtonItemStyleBordered
-                                                                                    target: self.navigationController
-                                                                                    action: @selector(popViewControllerAnimated:)]];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            self.title = @"Shows";
             self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+        }
+        else {
+            self.title = @"5by5";
+            [self.navigationItem  setBackBarButtonItem: [[UIBarButtonItem alloc] initWithTitle: @"Shows"
+                                                                                         style: UIBarButtonItemStyleBordered
+                                                                                        target: self.navigationController
+                                                                                        action: @selector(popViewControllerAnimated:)]];
         }
     }
     return self;
