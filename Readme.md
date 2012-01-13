@@ -7,3 +7,7 @@ If you want to use the Instapaper button copy `InstapaperCredentials.h.example` 
 # Credits
 
 I shamelessly copied 5by5's artwork and logo. All rights belong to them, blah blah blah, etc.
+
+# License
+
+All of the code and other stuff that is my creation is licensed under the [MIT license](http://sjs.mit-license.org).
