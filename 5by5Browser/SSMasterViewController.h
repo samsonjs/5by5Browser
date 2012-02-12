@@ -18,6 +18,7 @@
 @property (nonatomic, retain) Show *currentShow;
 @property (nonatomic, retain) NSString *currentEpisodeNumber;
 @property (nonatomic, retain) NSString *currentEpisodeName;
+@property (nonatomic, retain) NSTimer *checkNowPlayingTimer;
 
 - (void) checkNowPlaying;
 

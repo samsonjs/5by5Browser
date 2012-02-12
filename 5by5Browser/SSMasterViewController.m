@@ -18,6 +18,7 @@
 @synthesize currentShow = _currentShow;
 @synthesize currentEpisodeNumber = _currentEpisodeNumber;
 @synthesize currentEpisodeName = _currentEpisodeName;
+@synthesize checkNowPlayingTimer = _checkNowPlayingTimer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,7 +49,19 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 
-    [self checkNowPlaying];
+    self.checkNowPlayingTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0
+                                                                 target: self
+                                                               selector: @selector(checkNowPlaying)
+                                                               userInfo: nil
+                                                                repeats: YES];
+}
+
+- (void) viewWillDisappear: (BOOL)animated
+{
+    [super viewWillDisappear: animated];
+
+    [self.checkNowPlayingTimer invalidate];
+    self.checkNowPlayingTimer = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -66,20 +79,18 @@
     MPMediaItem *song = [[MPMusicPlayerController iPodMusicPlayer] nowPlayingItem];
     if (song) {
         NSString *title = [song valueForProperty: MPMediaItemPropertyTitle];
-        self.currentEpisodeNumber = [title firstMatch: @"\\d+"];
-        self.currentEpisodeName = [title substringFromIndex: [title rangeOfString: @": "].location + 2];
+        NSString *episodeNumber = [title firstMatch: @"\\d+"];
         NSString *showName = [song valueForProperty: MPMediaItemPropertyAlbumTitle];
-        self.currentShow = [self.fiveByFive showWithName: showName];
-        if (self.currentShow) {
-            NSLog(@"show: %@, episode: %@, name: %@", showName, self.currentEpisodeNumber, self.currentEpisodeName);
-            NSLog(@"show url: %@", [self.currentShow webURLForEpisodeNumber: self.currentEpisodeNumber]);
+        if (![self.currentEpisodeNumber isEqualToString: episodeNumber] && ![self.currentShow.name isEqualToString: showName]) {
+            Show *nowPlayingShow = [self.fiveByFive showWithName: showName];
+            if (nowPlayingShow) {
+                self.currentShow = nowPlayingShow;
+                self.currentEpisodeNumber = episodeNumber;
+                self.currentEpisodeName = [title substringFromIndex: [title rangeOfString: @": "].location + 2];
+                NSLog(@"show: %@, episode: %@, name: %@", showName, self.currentEpisodeNumber, self.currentEpisodeName);
+                NSLog(@"show url: %@", [self.currentShow webURLForEpisodeNumber: self.currentEpisodeNumber]);
+            }
         }
-        else {
-            NSLog(@"no show named %@", showName);
-        }
-    }
-    else {
-        NSLog(@"no song is currently playing");
     }
     [self.tableView reloadData];
 }
