@@ -126,11 +126,9 @@
 {
     // Show the loading animation
     self.isLoading = YES;
-    if (self.episode) {
-        [self.webView loadRequest: [NSURLRequest requestWithURL: self.episode.url]];
-    }
-    else {
-        [self.webView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString: @"http://5by5.tv"]]];
+    NSURL *url = self.episode ? self.episode.url : [NSURL URLWithString: @"http://5by5.tv"];
+    if (![url isEqual: self.webView.request.URL]) {
+        [self.webView loadRequest: [NSURLRequest requestWithURL: url]];
     }
 }
 
