@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString *currentEpisodeNumber;
 @property (nonatomic, retain) NSString *currentEpisodeName;
 @property (nonatomic, retain) NSTimer *checkNowPlayingTimer;
+@property (nonatomic, retain) UITableViewCell *selectedCell;
 
 - (void) checkNowPlaying;
 

@@ -20,6 +20,7 @@
 @synthesize currentEpisodeNumber = _currentEpisodeNumber;
 @synthesize currentEpisodeName = _currentEpisodeName;
 @synthesize checkNowPlayingTimer = _checkNowPlayingTimer;
+@synthesize selectedCell = _selectedCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,10 +45,11 @@
 {
     [super viewWillAppear: animated];
 
-    for (int i = 0; i < [self tableView: self.tableView numberOfRowsInSection: 0]; ++i) {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: [NSIndexPath indexPathForRow: i inSection: 0]];
+    UITableViewCell *cell = self.selectedCell;
+    if (animated && cell) {
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        [self.tableView deselectRowAtIndexPath: [self.tableView indexPathForSelectedRow] animated: YES];
     }
 
     self.checkNowPlayingTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0
@@ -140,9 +142,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.adjustsFontSizeToFitWidth = YES;
     }
-
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     if (self.currentShow && indexPath.section == 0) {
         self.currentShow.delegate = self;
@@ -177,12 +179,15 @@
         [[self.fiveByFive.shows objectAtIndex: indexPath.row] getEpisodes];
         UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite];
         [indicatorView startAnimating];
-        [tableView cellForRowAtIndexPath: indexPath].accessoryView = indicatorView;
+        self.selectedCell = [tableView cellForRowAtIndexPath: indexPath];
+        self.selectedCell.accessoryView = indicatorView;
     }
 }
 
 - (void) gotEpisodesForShow: (Show *)show
 {
+    self.selectedCell.accessoryView = nil;
+    self.selectedCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     self.selectedCell.detailTextLabel.text = [[[[show episodes] objectAtIndex: 0] date]  relativeToNow];
     self.showViewController.show = show;
     [self.navigationController pushViewController: self.showViewController animated: YES];
