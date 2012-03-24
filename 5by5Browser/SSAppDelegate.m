@@ -24,13 +24,16 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     FiveByFive *fiveByFive = [[FiveByFive alloc] initWithBaseURL: @"http:/feeds.feedburner.com/"];
-    [fiveByFive addShow: [Show showWithName: @"Back to Work"      feedPath: @"back2work"     webPath: @"b2w"]];
-    [fiveByFive addShow: [Show showWithName: @"Build and Analyze" feedPath: @"buildanalyze"  webPath: @"buildanalyze"]];
-    [fiveByFive addShow: [Show showWithName: @"The Critical Path" feedPath: @"criticalpath"  webPath: @"criticalpath"]];
-    [fiveByFive addShow: [Show showWithName: @"Geek Friday"       feedPath: @"GeekFriday"    webPath: @"geekfriday"]];
-    [fiveByFive addShow: [Show showWithName: @"Hypercritical"     feedPath: @"hypercritical" webPath: @"hypercritical"]];
-    [fiveByFive addShow: [Show showWithName: @"The Talk Show"     feedPath: @"thetalkshow"   webPath: @"talkshow"]];
-    [fiveByFive addShow: [Show showWithName: @"The Web Ahead"     feedPath: @"TheWebAhead"   webPath: @"webahead"]];
+    [fiveByFive addShow: [Show showWithName: @"After Dark"         feedPath: @"5by5-afterdark"  webPath: @"afterdark"]];
+    [fiveByFive addShow: [Show showWithName: @"Back to Work"       feedPath: @"back2work"       webPath: @"b2w"]];
+    [fiveByFive addShow: [Show showWithName: @"Build and Analyze"  feedPath: @"buildanalyze"    webPath: @"buildanalyze"]];
+    [fiveByFive addShow: [Show showWithName: @"The B&B Podcast"    feedPath: @"thebbpodcast"    webPath: @"bb"]];
+    [fiveByFive addShow: [Show showWithName: @"The Critical Path"  feedPath: @"criticalpath"    webPath: @"criticalpath"]];
+    [fiveByFive addShow: [Show showWithName: @"Geek Friday"        feedPath: @"GeekFriday"      webPath: @"geekfriday"]];
+    [fiveByFive addShow: [Show showWithName: @"Hypercritical"      feedPath: @"hypercritical"   webPath: @"hypercritical"]];
+    [fiveByFive addShow: [Show showWithName: @"The Talk Show"      feedPath: @"thetalkshow"     webPath: @"talkshow"]];
+    [fiveByFive addShow: [Show showWithName: @"5by5 Specials"      feedPath: @"5by5-specials"   webPath: @"specials"]];
+    [fiveByFive addShow: [Show showWithName: @"5by5 at the Movies" feedPath: @"5by5AtTheMovies" webPath: @"movies"]];
 
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
