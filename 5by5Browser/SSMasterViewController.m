@@ -173,7 +173,9 @@
         NSURL *url = [NSURL URLWithString: [self.currentShow webURLForEpisodeNumber: self.currentEpisodeNumber]];
         Episode *episode = [Episode episodeWithShow: self.currentShow name: self.currentEpisodeName number: self.currentEpisodeNumber date: nil url: url];
         self.showViewController.detailViewController.episode = episode;
-        [self.navigationController pushViewController: self.showViewController.detailViewController animated: YES];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            [self.navigationController pushViewController: self.showViewController.detailViewController animated: YES];
+        }
     }
     else {
         [[self.fiveByFive.shows objectAtIndex: indexPath.row] getEpisodes];
