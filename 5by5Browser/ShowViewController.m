@@ -9,6 +9,7 @@
 #import "ShowViewController.h"
 #import "SSDetailViewController.h"
 #import "Episode.h"
+#import "NSDate+relative.h"
 
 @interface ShowViewController ()
 
@@ -76,17 +77,19 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier: CellIdentifier];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        cell.textLabel.adjustsFontSizeToFitWidth = YES;
+        cell.textLabel.textColor = [UIColor darkGrayColor];
     }
-    
     
     Episode *episode = [self.show.episodes objectAtIndex: indexPath.row];
     cell.textLabel.text = episode.name;
+    cell.detailTextLabel.text = [episode.date relativeToNow];
     return cell;
 }
 
@@ -95,7 +98,7 @@
     Episode *episode = [self.show.episodes objectAtIndex: indexPath.row];
     self.detailViewController.episode = episode;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        [self.navigationController pushViewController: self.detailViewController animated:YES];
+        [self.navigationController pushViewController: self.detailViewController animated: YES];
     }
 }
 

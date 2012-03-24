@@ -10,6 +10,7 @@
 #import "SSMasterViewController.h"
 #import "Show.h"
 #import "NSString+marshmallows.h"
+#import "NSDate+relative.h"
 
 @implementation SSMasterViewController
 
@@ -155,7 +156,7 @@
         cell.textLabel.text = show.name;
         cell.imageView.image = show.image;
         if (show.episodes.count > 0) {
-            cell.detailTextLabel.text = [NSString stringWithFormat: @"%d episodes", show.episodes.count];
+            cell.detailTextLabel.text = [[[[show episodes] objectAtIndex: 0] date]  relativeToNow];
         }
         else {
             cell.detailTextLabel.text = nil;
@@ -168,7 +169,7 @@
 {
     if (self.currentShow && indexPath.section == 0) {
         NSURL *url = [NSURL URLWithString: [self.currentShow webURLForEpisodeNumber: self.currentEpisodeNumber]];
-        Episode *episode = [Episode episodeWithShow: self.currentShow name: self.currentEpisodeName number: self.currentEpisodeNumber url: url];
+        Episode *episode = [Episode episodeWithShow: self.currentShow name: self.currentEpisodeName number: self.currentEpisodeNumber date: nil url: url];
         self.showViewController.detailViewController.episode = episode;
         [self.navigationController pushViewController: self.showViewController.detailViewController animated: YES];
     }
@@ -182,6 +183,7 @@
 
 - (void) gotEpisodesForShow: (Show *)show
 {
+    self.selectedCell.detailTextLabel.text = [[[[show episodes] objectAtIndex: 0] date]  relativeToNow];
     self.showViewController.show = show;
     [self.navigationController pushViewController: self.showViewController animated: YES];
 }
