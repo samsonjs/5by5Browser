@@ -12,13 +12,14 @@
 #import "NSDate+relative.h"
 
 @interface ShowViewController ()
-
+@property (nonatomic, retain) NSMutableDictionary *indexPaths;
 @end
 
 @implementation ShowViewController
 
 @synthesize detailViewController = _detailViewController;
 @synthesize show = _show;
+@synthesize indexPaths = _indexPaths;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,6 +27,7 @@
     if (self) {
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+            self.indexPaths = [NSMutableDictionary dictionary];
         }
     }
     return self;
@@ -39,10 +41,20 @@
     }
 }
 
+- (void) viewWillDisappear: (BOOL)animated
+{
+    [super viewWillDisappear: animated];
+    [self.indexPaths setObject: [[self.tableView indexPathsForVisibleRows] objectAtIndex: 0] forKey: self.show.name];
+}
+
 - (void) configureView
 {
     self.title = self.show.name;
-    [self.tableView scrollToRowAtIndexPath: [NSIndexPath indexPathForRow: 0 inSection: 0] atScrollPosition: UITableViewScrollPositionTop animated: NO];
+    NSIndexPath *indexPath = [self.indexPaths objectForKey: self.show.name];
+    if (!indexPath) {
+        indexPath = [NSIndexPath indexPathForRow: 0 inSection: 0];
+    }
+    [self.tableView scrollToRowAtIndexPath: indexPath atScrollPosition: UITableViewScrollPositionTop animated: NO];
     [self.tableView reloadData];
 }
 
