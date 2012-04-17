@@ -25,6 +25,7 @@
 
     FiveByFive *fiveByFive = [[FiveByFive alloc] initWithBaseURL: @"http:/feeds.feedburner.com/"];
     [fiveByFive addShow: [Show showWithName: @"After Dark"         feedPath: @"5by5-afterdark"  webPath: @"afterdark"]];
+    [fiveByFive addShow: [Show showWithName: @"Amplified"          feedPath: @"5by5-amplified"  webPath: @"amplified"]];
     [fiveByFive addShow: [Show showWithName: @"Back to Work"       feedPath: @"back2work"       webPath: @"b2w"]];
     [fiveByFive addShow: [Show showWithName: @"Build and Analyze"  feedPath: @"buildanalyze"    webPath: @"buildanalyze"]];
     [fiveByFive addShow: [Show showWithName: @"The B&B Podcast"    feedPath: @"thebbpodcast"    webPath: @"bb"]];

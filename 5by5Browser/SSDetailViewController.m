@@ -120,6 +120,11 @@
     }];
     [self.backButton setEnabled: webView.canGoBack];
     [self.forwardButton setEnabled: webView.canGoForward];
+
+    // Custom CSS for iPhone
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.webView stringByEvaluatingJavaScriptFromString: @"var s5 = document.createElement('script');s5.async = true;s5.src = 'http://samhuri.net/f/fiveshift.js';var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(s5, s)"];
+    }
 }
 
 - (IBAction) goHome: (id)sender
